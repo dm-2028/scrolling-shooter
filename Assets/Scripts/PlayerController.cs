@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private float maxXPos = 8.0f;
     private float maxYPos = 4.0f;
-    private float gunCooldown = .1f;
+    private float gunCooldown = .2f;
 
     public GameObject bullet;
 
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     private void InstantiateBullets()
     {
-        Instantiate(bullet, new Vector3(transform.position.x - .7f, transform.position.y, transform.position.z), transform.rotation);
-        Instantiate(bullet, new Vector3(transform.position.x + .7f, transform.position.y, transform.position.z), transform.rotation);
+        Instantiate(bullet, new Vector3(transform.position.x - .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0,0,0));
+        Instantiate(bullet, new Vector3(transform.position.x + .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0, 0, 0));
     }
 }
