@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private float maxYPos = 4.0f;
     private float gunCooldown = .2f;
 
+    private int health = 10;
+
     public GameObject bullet;
 
     // Start is called before the first frame update
@@ -70,5 +72,18 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(bullet, new Vector3(transform.position.x - .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0,0,0));
         Instantiate(bullet, new Vector3(transform.position.x + .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0, 0, 0));
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Projectile"))
+        {
+            Destroy(other.gameObject);
+        }
+        health--;
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
