@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 345958305}
   - component: {fileID: 345958304}
   m_Layer: 0
-  m_Name: GameSpawner
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,6 +283,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 1287998610302720830, guid: a2da668d96d542342a521ccadbdc6c4d, type: 3}
   - {fileID: 3471132304679014218, guid: f8655e7b90404514f8611fb2cd74731d, type: 3}
+  scoreText: {fileID: 580805366}
 --- !u!4 &345958305
 Transform:
   m_ObjectHideFlags: 0

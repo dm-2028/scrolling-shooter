@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
 
-public class GameSpawner : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private string[] level;
     private TextAsset levelText;
 
+    private int mScore = 0;
+
     public GameObject[] prefabs;
+
+    public TextMeshProUGUI scoreText;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +37,12 @@ public class GameSpawner : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void addScore(int score)
+    {
+        mScore += score;
+        scoreText.text = "Score: " + mScore;
     }
 
     IEnumerator SpawnWave()
