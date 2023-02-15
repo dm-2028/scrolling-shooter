@@ -16,11 +16,12 @@ public class PlayerController : MonoBehaviour
     private int health = 10;
 
     public GameObject bullet;
+    public GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
         }
         health--;
+        gameManager.UpdateHealth(health);
         if(health <= 0)
         {
             Destroy(gameObject);

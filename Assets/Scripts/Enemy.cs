@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    virtual protected int health{ get { return 10; } set { } }
+    [SerializeField] private int mHealth = 10;
+    virtual protected int health{ get { return mHealth; } set { } }
 
     virtual protected int pointValue { get { return 50; } }
     virtual protected float speed { get { return 1.0f; } }
     virtual protected float gunCooldownMin {  get { return .9f; } }
     virtual protected float gunCooldownMax { get { return 1.1f; } }
     private float gunCooldown;
+    private bool isColliding;
 
     [SerializeField] public GameObject projectile;
 
@@ -26,9 +28,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isColliding = false;
         Move();
         Shoot();
-        if(health <= 0)
+        if(mHealth <= 0)
         {
             Destroy(gameObject);
             gameManager.addScore(pointValue);
@@ -59,11 +62,12 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("trigger enter");
-        if (other.CompareTag("Projectile"))
+        Debug.Log("trigger enter " + other.name);
+        if (other.CompareTag("Projectile") && !isColliding)
         {
+            isColliding = true;
             Destroy(other.gameObject);
-            health--;
+            mHealth--;
         }
     }
 

@@ -125,6 +125,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c244ab0e9a6e04482d803221cb914e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  gunCooldown: 0.8
   projectile: {fileID: 5948032794416743365, guid: bbce4013f9ce6094e8deb2b412aa9408, type: 3}
+  gameManager: {fileID: 0}

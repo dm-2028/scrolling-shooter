@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 586990261386261974}
   - component: {fileID: 3441207243890639132}
   - component: {fileID: 4104067676312124050}
+  - component: {fileID: 385810331517782945}
+  - component: {fileID: 6638115851049071682}
   m_Layer: 0
   m_Name: PlayerBlueBlack
   m_TagString: Untagged
@@ -92,9 +94,36 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3801429175495418057}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8677440271824882160, guid: 36f03cd9c9a8a38478e95876c7c4bf6e, type: 3}
+--- !u!114 &385810331517782945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3801429175495418057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095e4d23e544da04ab588f3dda4d3838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  bullet: {fileID: 5948032794416743365, guid: bbce4013f9ce6094e8deb2b412aa9408, type: 3}
+--- !u!65 &6638115851049071682
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3801429175495418057}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 29, y: 4.9372425, z: 7.194567}
+  m_Center: {x: 0, y: 2.1308556, z: 1.405968}

@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.up * 5.0f * Time.deltaTime);
-        if (transform.position.y > 5.0f)// || transform.position.y < -5.0f)
+        if (transform.position.y > 5.0f || transform.position.y < -5.0f)
         {
             Destroy(gameObject);
         }

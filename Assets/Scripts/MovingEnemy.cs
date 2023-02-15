@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MovingEnemy : Enemy
 {
-    protected override int health { get { return 15; } }
+    [SerializeField] private int mHealth = 15;
+    protected override int health { get { return mHealth; } set { } }
     protected override float speed {  get { return 2.0f; } }
     protected override float gunCooldownMin { get { return .8f; } }
     protected override float gunCooldownMax { get { return 1f; } }

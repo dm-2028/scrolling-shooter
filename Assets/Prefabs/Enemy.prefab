@@ -112,10 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9542e4349afbf034f800b3a57a6d4a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  speed: 1
-  gunCooldown: 0.8
+  mHealth: 10
   projectile: {fileID: 5948032794416743365, guid: bbce4013f9ce6094e8deb2b412aa9408, type: 3}
+  gameManager: {fileID: 0}
 --- !u!65 &2264959055617498458
 BoxCollider:
   m_ObjectHideFlags: 0
