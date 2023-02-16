@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int mHealth = 10;
+    private int mHealth = 20;
     virtual protected int health{ get { return mHealth; } set { } }
 
     virtual protected int pointValue { get { return 50; } }
@@ -14,9 +14,11 @@ public class Enemy : MonoBehaviour
     private float gunCooldown;
     private bool isColliding;
 
+    public GameObject healthObject;
+
     [SerializeField] public GameObject projectile;
 
-    public GameManager gameManager;
+    private GameManager gameManager;
     
     // Start is called before the first frame update
     protected virtual void Start()
@@ -33,8 +35,14 @@ public class Enemy : MonoBehaviour
         Shoot();
         if(mHealth <= 0)
         {
-            Destroy(gameObject);
+            int healthSpawn = Random.Range(0, 10);
+            if(healthSpawn == 0)
+            {
+                Debug.Log("Spawn health");
+                Instantiate(healthObject, transform.position, transform.rotation);
+            }
             gameManager.addScore(pointValue);
+            Destroy(gameObject);
         }
         else if(transform.position.y < -6)
         {
@@ -65,14 +73,11 @@ public class Enemy : MonoBehaviour
         Debug.Log("trigger enter " + other.name);
         if (other.CompareTag("Projectile") && !isColliding)
         {
+            Debug.Log("Compare projectile");
             isColliding = true;
             Destroy(other.gameObject);
             mHealth--;
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("collision enter");
-    }
 }

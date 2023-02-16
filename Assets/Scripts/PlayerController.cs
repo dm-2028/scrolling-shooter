@@ -11,9 +11,10 @@ public class PlayerController : MonoBehaviour
 
     private float maxXPos = 8.0f;
     private float maxYPos = 4.0f;
-    private float gunCooldown = .2f;
+    private float gunCooldown = .1f;
 
     private int health = 10;
+    private int maxHealth = 10;
 
     public GameObject bullet;
     public GameManager gameManager;
@@ -77,15 +78,29 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Projectile"))
+        if (other.CompareTag("EnemyProjectile"))
         {
             Destroy(other.gameObject);
+
+            health--;
+            gameManager.UpdateHealth(health);
+
+            if (health <= 0)
+            {
+                gameManager.ShipDestroyed();
+                Destroy(gameObject);
+            }
         }
-        health--;
-        gameManager.UpdateHealth(health);
-        if(health <= 0)
+        if (other.CompareTag("Health"))
         {
-            Destroy(gameObject);
+            Debug.Log("Health Pickup");
+            Destroy(other.gameObject);
+            health += 2;
+            if(health > maxHealth)
+            {
+                health = maxHealth;
+            }
+            gameManager.UpdateHealth(health);
         }
     }
 }

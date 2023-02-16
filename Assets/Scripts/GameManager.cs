@@ -4,32 +4,52 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private string[] level;
     private TextAsset levelText;
+    private static int levelNumber = 1;
+    private static int maxLevels = 2;
 
-    private int mScore = 0;
+    private static int mScore = 0;
+    private float lerpSpeed = 1.5f;
+    private static int lives = 2;
 
     public GameObject[] prefabs;
     public GameObject[] playerShips;
     public GameObject pauseMenu;
+    public GameObject gameOverScreen;
     public GameObject controlsDirection;
+    public GameObject scroller;
+    public GameObject player;
     public Slider healthBar;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
+    public TextMeshProUGUI remainingLives;
 
     private bool gamePaused = false;
     // Start is called before the first frame update
     void Start()
     {
         highScoreText.text = "High Score: " + MainManager.Instance.highScore;
+        UpdateLives();
         SpawnPlayer();
         LoadLevel();
         StartCoroutine("SpawnWave");
-        Invoke("DisableControlMessage", 5.0f);
+        if(levelNumber == 1)
+        {
+            controlsDirection.SetActive(true);
+            Invoke("DisableControlMessage", 5.0f);
+        }
+        else
+        {
+            controlsDirection.SetActive(false);
+        }
+
+        
     }
 
     // Update is called once per frame
@@ -39,6 +59,11 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
+    }
+
+    private void UpdateLives()
+    {
+        remainingLives.text = "Lives: " + lives;
     }
 
     private void DisableControlMessage()
@@ -64,8 +89,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevel()
     {
-        string path = Application.streamingAssetsPath + "/level1";
-        levelText = Resources.Load<TextAsset>("level1");
+        string path = Application.streamingAssetsPath + "/level" + levelNumber;
+        levelText = Resources.Load<TextAsset>("level" + levelNumber);
         level = levelText.text.Split('\n');
         Debug.Log(path);
         if (File.Exists(path))
@@ -82,7 +107,8 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayer()
     {
         int index = MainManager.Instance.shipSelection;
-        Instantiate(playerShips[index], new Vector3(0, -4, 0), playerShips[index].transform.rotation);
+        player = Instantiate(playerShips[index], new Vector3(0, -4, 0), playerShips[index].transform.rotation);
+        UpdateHealth(10);
     }
 
     public void addScore(int score)
@@ -94,6 +120,27 @@ public class GameManager : MonoBehaviour
             MainManager.Instance.highScore = mScore;
             MainManager.Instance.SavePlayerInfo();
         }
+    }
+
+    public void ShipDestroyed()
+    {
+        lives--;
+        if(lives < 0)
+        {
+            GameOver();
+        }
+        else
+        {
+            UpdateLives();
+            Invoke("SpawnPlayer", 2.0f);
+            
+        }
+    }
+
+    private void GameOver()
+    {
+        Time.timeScale = 0;
+        gameOverScreen.SetActive(true);
     }
     
     public void UpdateHealth(int health)
@@ -108,7 +155,40 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
 
-        yield return null;
+        StartCoroutine("FinishLevel");
+    }
+
+    IEnumerator FinishLevel()
+    {
+        scroller.GetComponent<MoveBackground>().enabled = false;
+        player.GetComponent<PlayerController>().enabled = false;
+        Vector3 startPos = player.transform.position;
+        Vector3 endPos = new Vector3(player.transform.position.x, 6, player.transform.position.z);
+        float distance = Vector3.Distance(startPos, endPos);
+        float startTime = Time.time;
+        float distanceCovered = (Time.time - startTime) * lerpSpeed;
+        float fraction = distanceCovered / distance;
+
+        while (fraction < 1)
+        {
+            distanceCovered = (Time.time - startTime) * lerpSpeed;
+            fraction = distanceCovered / distance;
+            player.transform.position = Vector3.Lerp(startPos, endPos, fraction);
+            yield return null;
+        }
+        LoadNextLevel();
+    }
+    private void LoadNextLevel()
+    {
+        levelNumber++;
+        if (levelNumber > maxLevels)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     private void ParseLine(string line)
@@ -124,6 +204,8 @@ public class GameManager : MonoBehaviour
                 case ('y'):
                     toSpawn = prefabs[1];
                     break;
+                case ('-'):
+                    return;
                 default:
                     break;
             }
@@ -132,5 +214,13 @@ public class GameManager : MonoBehaviour
                 Instantiate(toSpawn, new Vector3(-8f + i, 5, 0), toSpawn.transform.rotation);
             }
         }
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        levelNumber = 1;
+        mScore = 0;
+        SceneManager.LoadScene(1);
     }
 }
