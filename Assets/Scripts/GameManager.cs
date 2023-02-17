@@ -14,17 +14,19 @@ public class GameManager : MonoBehaviour
     private static int maxLevels = 2;
 
     private static int mScore = 0;
-    private float lerpSpeed = 1.5f;
+    private float lerpSpeed = 5.0f;
     private static int lives = 2;
 
     public GameObject[] prefabs;
     public GameObject[] playerShips;
+    public GameObject bossPrefab;
     public GameObject pauseMenu;
     public GameObject gameOverScreen;
     public GameObject controlsDirection;
     public GameObject scroller;
     public GameObject player;
     public Slider healthBar;
+    private bool bossFight = false;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         highScoreText.text = "High Score: " + MainManager.Instance.highScore;
+        scoreText.text = "Score: " + mScore;
         UpdateLives();
         SpawnPlayer();
         LoadLevel();
@@ -152,10 +155,34 @@ public class GameManager : MonoBehaviour
         foreach(string line in level)
         {
             ParseLine(line);
+            Debug.Log("boss fight " + bossFight);
             yield return new WaitForSeconds(2f);
         }
+        Debug.Log("boss fight after for loop " + bossFight);
+        if (bossFight)
+        {
+            StartCoroutine("BossFight");
+        }
+        else
+        {
+            StartCoroutine("FinishLevel");
+        }
+    }
 
-        StartCoroutine("FinishLevel");
+    IEnumerator BossFight()
+    {
+        GameObject boss = Instantiate(bossPrefab, new Vector3(0, 6, 0), bossPrefab.transform.rotation);
+        Vector3 startPos = boss.transform.position;
+        Vector3 endPos = new Vector3(0, 2.6f, 0);
+        float i = 0.0f;
+        float rate = 1.0f / 3.0f;
+        while (i < 1.0)
+        {
+            i += Time.deltaTime * rate;
+            boss.transform.position = Vector3.Lerp(startPos, endPos, i);
+            yield return null;
+        }
+        boss.GetComponent<Boss>().isActive = true;
     }
 
     IEnumerator FinishLevel()
@@ -204,6 +231,15 @@ public class GameManager : MonoBehaviour
                 case ('y'):
                     toSpawn = prefabs[1];
                     break;
+                case ('z'):
+                    toSpawn = prefabs[2];
+                    break;
+                case ('a'):
+                    toSpawn = prefabs[3]; 
+                    break;
+                case ('b'):
+                    bossFight = true;
+                    return;
                 case ('-'):
                     return;
                 default:
@@ -213,7 +249,9 @@ public class GameManager : MonoBehaviour
             {
                 Instantiate(toSpawn, new Vector3(-8f + i, 5, 0), toSpawn.transform.rotation);
             }
+            
         }
+
     }
 
     public void Restart()

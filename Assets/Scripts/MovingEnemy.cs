@@ -6,7 +6,7 @@ public class MovingEnemy : Enemy
 {
     private int mHealth = 30;
     protected override int health { get { return mHealth; } set { } }
-    protected override float speed {  get { return 2.0f; } }
+    protected override float speed { get { return 2.0f; } }
     protected override float gunCooldownMin { get { return .8f; } }
     protected override float gunCooldownMax { get { return 1f; } }
     protected override int pointValue { get { return 75; } }

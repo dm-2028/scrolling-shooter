@@ -484,12 +484,15 @@ MonoBehaviour:
   prefabs:
   - {fileID: 1287998610302720830, guid: a2da668d96d542342a521ccadbdc6c4d, type: 3}
   - {fileID: 3471132304679014218, guid: f8655e7b90404514f8611fb2cd74731d, type: 3}
+  - {fileID: 9137885763265295306, guid: c889034710bfb7c4d82944a332b30658, type: 3}
+  - {fileID: 1517989485693760192, guid: ced285fcfed98394d9a3c4e22f59ba16, type: 3}
   playerShips:
   - {fileID: 658663472908737268, guid: 6b56ea1788c42fa43ba619539589546f, type: 3}
   - {fileID: 147514822163986274, guid: 3a80ec0800661b349add9a5e42406f56, type: 3}
   - {fileID: 5465113948668262240, guid: d48ccc442a20ad548ae11b3669762c9d, type: 3}
   - {fileID: 5513459249349457580, guid: 85232a8e970c2704fa10b7b94028950e, type: 3}
   - {fileID: 3801429175495418057, guid: 0558e3a8e0f31574297565692414d02c, type: 3}
+  bossPrefab: {fileID: 4897858179903800892, guid: fcca6018fb3a76449a2a2da306d4eaa9, type: 3}
   pauseMenu: {fileID: 1540172313}
   gameOverScreen: {fileID: 273478221}
   controlsDirection: {fileID: 1155403731}

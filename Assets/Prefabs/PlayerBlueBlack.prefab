@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6638115851049071682}
   m_Layer: 0
   m_Name: PlayerBlueBlack
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   bullet: {fileID: 5948032794416743365, guid: bbce4013f9ce6094e8deb2b412aa9408, type: 3}
+  gameManager: {fileID: 0}
 --- !u!65 &6638115851049071682
 BoxCollider:
   m_ObjectHideFlags: 0

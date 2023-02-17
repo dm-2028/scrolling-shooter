@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    private void Shoot()
+    protected virtual void Shoot()
     {
         if(gunCooldown > 0)
         {
