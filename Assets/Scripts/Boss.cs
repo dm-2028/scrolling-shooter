@@ -21,6 +21,7 @@ public class Boss : MonoBehaviour
     private bool isColliding;
 
     private GameObject player;
+    private GameManager gameManager;
 
     public bool isActive { get; set; }
 
@@ -29,6 +30,7 @@ public class Boss : MonoBehaviour
     {
         isActive = false;
         player = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -119,9 +121,11 @@ public class Boss : MonoBehaviour
         while(fadeLevel > 0)
         {
             Debug.Log("Fade Level " + fadeLevel);
-            fadeLevel = fadeLevel - Time.deltaTime;
-            mColor = new Color(mColor.r, mColor.g, mColor.b, fadeLevel);
+            fadeLevel = fadeLevel - Time.deltaTime*.3f;
+            GetComponent<MeshRenderer>().material.color = new Color(mColor.r, mColor.g, mColor.b, fadeLevel);
             yield return null;
         }
+
+        gameManager.StartCoroutine("FinishLevel");
     }
 }

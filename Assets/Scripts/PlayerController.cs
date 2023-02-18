@@ -18,11 +18,13 @@ public class PlayerController : MonoBehaviour
 
     public GameObject bullet;
     public GameManager gameManager;
+    private Rigidbody playerRb;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -75,6 +77,14 @@ public class PlayerController : MonoBehaviour
         Instantiate(bullet, new Vector3(transform.position.x - .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0,0,0));
         Instantiate(bullet, new Vector3(transform.position.x + .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0, 0, 0));
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("oncollision " + collision.gameObject.name);
+        Vector3 otherPosition = collision.gameObject.transform.position;
+        Vector3 direction = otherPosition - transform.position;
+
+        playerRb.AddForce(direction, ForceMode.Impulse);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -84,12 +94,14 @@ public class PlayerController : MonoBehaviour
 
             health--;
             gameManager.UpdateHealth(health);
-
-            if (health <= 0)
-            {
-                gameManager.ShipDestroyed();
-                Destroy(gameObject);
-            }
+            CheckHealth();
+        }
+        if (other.CompareTag("Bomb"))
+        {
+            Destroy(other.gameObject);
+            health -= 2;
+            gameManager.UpdateHealth(health);
+            CheckHealth();
         }
         if (other.CompareTag("Health"))
         {
@@ -102,5 +114,23 @@ public class PlayerController : MonoBehaviour
             }
             gameManager.UpdateHealth(health);
         }
+    }
+
+    private void CheckHealth()
+    {
+        if (health <= 0)
+        {
+            gameManager.ShipDestroyed();
+            gameObject.SetActive(false);
+            Invoke("ResetShip", 2.0f);
+        }
+    }
+
+    private void ResetShip()
+    {
+        transform.position = new Vector3(0, -4, 0);
+        gameObject.SetActive(true);
+        health = 10;
+        gameManager.UpdateHealth(health);
     }
 }

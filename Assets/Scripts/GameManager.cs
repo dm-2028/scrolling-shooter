@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private string[] level;
     private TextAsset levelText;
     private static int levelNumber = 1;
-    private static int maxLevels = 2;
+    private static int maxLevels = 3;
 
     private static int mScore = 0;
     private float lerpSpeed = 5.0f;
@@ -136,7 +136,6 @@ public class GameManager : MonoBehaviour
         {
             UpdateLives();
             Invoke("SpawnPlayer", 2.0f);
-            
         }
     }
 
