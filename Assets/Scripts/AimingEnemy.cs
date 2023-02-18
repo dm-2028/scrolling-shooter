@@ -28,11 +28,14 @@ public class AimingEnemy : Enemy
         }
         else
         {
-            gunCooldown = Random.Range(gunCooldownMin, gunCooldownMax);
-            Vector3 launchPosition = new(transform.position.x, transform.position.y - 1, transform.position.z);
-            Vector3 direction = player.transform.position - launchPosition;
+            if (transform.position.y > player.transform.position.y)
+            {
+                gunCooldown = Random.Range(gunCooldownMin, gunCooldownMax);
+                Vector3 launchPosition = new(transform.position.x, transform.position.y - 1, transform.position.z);
+                Vector3 direction = player.transform.position - launchPosition;
 
-            Instantiate(projectile, launchPosition, Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0));
+                Instantiate(projectile, launchPosition, Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0));
+            }
         }
 
     }

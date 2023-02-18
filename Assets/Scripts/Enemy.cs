@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject healthObject;
     public GameObject powerupObject;
+    public ParticleSystem explosion;
 
     [SerializeField] public GameObject projectile;
 
@@ -42,9 +43,11 @@ public class Enemy : MonoBehaviour
                 Debug.Log("Spawn health");
                 Instantiate(healthObject, transform.position, transform.rotation);
             }else if(spawn <= 4){
-                Instantiate(powerupObject, transform.position, transform.rotation);
+                Instantiate(powerupObject, transform.position, transform.rotation*Quaternion.Euler(-90,0,0));
             }
             gameManager.addScore(pointValue);
+            Instantiate(explosion, transform.position, transform.rotation);
+
             Destroy(gameObject);
         }
         else if(transform.position.y < -6)
@@ -52,6 +55,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
     protected virtual void Move()
     {

@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthObject: {fileID: 8424109106484416446, guid: ab65df868498272408c9141a175a66d8, type: 3}
+  powerupObject: {fileID: 2912915930090470894, guid: cf19e8a7e50904a4694c643a18c53b1a, type: 3}
+  explosion: {fileID: 4632652905123156457, guid: c00b528130123974ba28855d435ac396, type: 3}
   projectile: {fileID: 5948032794416743365, guid: 71eccb158db4c20469c65ffa63f6755d, type: 3}
 --- !u!65 &2264959055617498458
 BoxCollider:

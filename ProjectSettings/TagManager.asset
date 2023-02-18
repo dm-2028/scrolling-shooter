@@ -9,6 +9,7 @@ TagManager:
   - EnemyProjectile
   - Health
   - Bomb
+  - Powerup
   layers:
   - Default
   - TransparentFX
