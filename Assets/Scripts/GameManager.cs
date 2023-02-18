@@ -135,7 +135,6 @@ public class GameManager : MonoBehaviour
         else
         {
             UpdateLives();
-            Invoke("SpawnPlayer", 2.0f);
         }
     }
 
@@ -154,7 +153,6 @@ public class GameManager : MonoBehaviour
         foreach(string line in level)
         {
             ParseLine(line);
-            Debug.Log("boss fight " + bossFight);
             yield return new WaitForSeconds(2f);
         }
         Debug.Log("boss fight after for loop " + bossFight);
@@ -258,6 +256,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         levelNumber = 1;
         mScore = 0;
+        lives = 2;
         SceneManager.LoadScene(1);
     }
 }

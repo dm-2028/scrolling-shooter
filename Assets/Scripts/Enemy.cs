@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     private bool isColliding;
 
     public GameObject healthObject;
+    public GameObject powerupObject;
 
     [SerializeField] public GameObject projectile;
 
@@ -35,11 +36,13 @@ public class Enemy : MonoBehaviour
         Shoot();
         if(mHealth <= 0)
         {
-            int healthSpawn = Random.Range(0, 10);
-            if(healthSpawn == 0)
+            int spawn = Random.Range(0, 25);
+            if(spawn <= 2)
             {
                 Debug.Log("Spawn health");
                 Instantiate(healthObject, transform.position, transform.rotation);
+            }else if(spawn <= 4){
+                Instantiate(powerupObject, transform.position, transform.rotation);
             }
             gameManager.addScore(pointValue);
             Destroy(gameObject);

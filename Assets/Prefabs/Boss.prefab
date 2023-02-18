@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4685403880516572775}
   - component: {fileID: 5825763209410786834}
   - component: {fileID: 5825763209410786833}
+  - component: {fileID: 2296839380207023401}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -127,3 +128,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombPrefab: {fileID: 8204827905516160395, guid: 4dfcf845408d98748a32b8cb4d0c7d60, type: 3}
   laserPrefab: {fileID: 5948032794416743365, guid: 71eccb158db4c20469c65ffa63f6755d, type: 3}
+--- !u!54 &2296839380207023401
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4897858179903800892}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

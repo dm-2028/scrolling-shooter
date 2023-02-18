@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private int health = 10;
     private int maxHealth = 10;
+    private int powerLevel = 0;
 
     public GameObject bullet;
     public GameManager gameManager;
@@ -81,9 +82,10 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("oncollision " + collision.gameObject.name);
         Vector3 otherPosition = collision.gameObject.transform.position;
-        Vector3 direction = otherPosition - transform.position;
-
-        playerRb.AddForce(direction, ForceMode.Impulse);
+        Vector3 direction = transform.position - otherPosition;
+        Debug.Log("direction: " + direction);
+        LoseHealth(1);
+        //playerRb.AddForce(direction*500.0f, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,17 +93,12 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("EnemyProjectile"))
         {
             Destroy(other.gameObject);
-
-            health--;
-            gameManager.UpdateHealth(health);
-            CheckHealth();
+            LoseHealth(1);
         }
         if (other.CompareTag("Bomb"))
         {
             Destroy(other.gameObject);
-            health -= 2;
-            gameManager.UpdateHealth(health);
-            CheckHealth();
+            LoseHealth(2);
         }
         if (other.CompareTag("Health"))
         {
@@ -116,8 +113,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckHealth()
+    private void LoseHealth(int damage)
     {
+        health -= damage;
+        gameManager.UpdateHealth(health);
         if (health <= 0)
         {
             gameManager.ShipDestroyed();
