@@ -10,6 +10,7 @@ TagManager:
   - Health
   - Bomb
   - Powerup
+  - Missile
   layers:
   - Default
   - TransparentFX

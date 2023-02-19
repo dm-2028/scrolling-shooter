@@ -6,6 +6,7 @@ public class Bomb : MonoBehaviour
 {
     public GameObject laserPrefab;
 
+    public ParticleSystem explosion;
     private IEnumerator coroutine;
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class Bomb : MonoBehaviour
         Instantiate(laserPrefab, transform.position, transform.rotation * Quaternion.Euler(135, 90, 0));
         Instantiate(laserPrefab, transform.position, transform.rotation * Quaternion.Euler(225, 90, 0));
         Instantiate(laserPrefab, transform.position, transform.rotation * Quaternion.Euler(315, 90, 0));
+        Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

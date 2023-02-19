@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI remainingLives;
+    public TextMeshProUGUI gameWinText;
 
     private bool gamePaused = false;
     // Start is called before the first frame update
@@ -207,7 +208,8 @@ public class GameManager : MonoBehaviour
         levelNumber++;
         if (levelNumber > maxLevels)
         {
-            SceneManager.LoadScene(0);
+            gameOverScreen.SetActive(true);
+            gameWinText.text = "You Win!";
         }
         else
         {

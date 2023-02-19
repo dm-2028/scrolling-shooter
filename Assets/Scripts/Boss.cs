@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Boss : MonoBehaviour
 {
     private float maxXPosition = 5.0f;
@@ -10,7 +11,8 @@ public class Boss : MonoBehaviour
     public GameObject bombPrefab;
     public GameObject laserPrefab;
 
-    private int health = 10;
+    private int health = 500;
+    private int pointValue = 10000;
     private float bombCooldown;
     private bool leftGun;
     private float laserCooldown;
@@ -22,6 +24,10 @@ public class Boss : MonoBehaviour
 
     private GameObject player;
     private GameManager gameManager;
+    private AudioSource bossAudio;
+
+    public AudioClip explosionSound;
+    public ParticleSystem explosion;
 
     public bool isActive { get; set; }
 
@@ -44,6 +50,7 @@ public class Boss : MonoBehaviour
             Shoot();
             if(health <= 0)
             {
+                gameManager.addScore(pointValue);
                 isActive = false;
                 StartCoroutine("FadeOut");
             }
@@ -110,6 +117,12 @@ public class Boss : MonoBehaviour
             Destroy(other.gameObject);
             health--;
         }
+        if (other.CompareTag("Missile") && !isColliding)
+        {
+                isColliding = true;
+                Destroy(other.gameObject);
+                health -= 5;
+        }
     }
 
     private IEnumerator FadeOut()
@@ -117,9 +130,19 @@ public class Boss : MonoBehaviour
         Debug.Log("Fading out");
         Color mColor = GetComponent<MeshRenderer>().material.color;
         float fadeLevel = mColor.a;
+        float xValMax = transform.position.x + 3;
+        float xValMin = transform.position.x - 3;
+        float yValMin = transform.position.y + 1;
+        float yValMax = transform.position.y - 2;
         
         while(fadeLevel > 0)
         {
+
+            if (Random.Range(0, 10) == 0)
+            {
+                bossAudio.PlayOneShot(explosionSound);
+                Instantiate(explosion, new Vector3(Random.Range(xValMin, xValMax), Random.Range(yValMin, yValMax), 0), transform.rotation);
+            }
             Debug.Log("Fade Level " + fadeLevel);
             fadeLevel = fadeLevel - Time.deltaTime*.3f;
             GetComponent<MeshRenderer>().material.color = new Color(mColor.r, mColor.g, mColor.b, fadeLevel);
