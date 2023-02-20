@@ -26,12 +26,14 @@ public class GameManager : MonoBehaviour
     public GameObject scroller;
     public GameObject player;
     public Slider healthBar;
+    public GameObject[] background;
     private bool bossFight = false;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI remainingLives;
     public TextMeshProUGUI gameWinText;
+    public TextMeshProUGUI levelNumberText;
 
     private bool gamePaused = false;
     // Start is called before the first frame update
@@ -39,10 +41,14 @@ public class GameManager : MonoBehaviour
     {
         highScoreText.text = "High Score: " + MainManager.Instance.highScore;
         scoreText.text = "Score: " + mScore;
+        levelNumberText.text = "Level " + levelNumber;
+        scroller = Instantiate(background[levelNumber - 1], new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
+        Invoke("DisableLevelNumber", 5.0f);
         UpdateLives();
         SpawnPlayer();
         LoadLevel();
         StartCoroutine("SpawnWave");
+        
         if(levelNumber == 1)
         {
             controlsDirection.SetActive(true);
@@ -74,6 +80,11 @@ public class GameManager : MonoBehaviour
     {
         controlsDirection.gameObject.SetActive(false);
     }
+    
+    private void DisableLevelNumber()
+    {
+        levelNumberText.gameObject.SetActive(false);
+    }
 
     private void TogglePause()
     {
@@ -96,10 +107,8 @@ public class GameManager : MonoBehaviour
         string path = Application.streamingAssetsPath + "/level" + levelNumber;
         levelText = Resources.Load<TextAsset>("level" + levelNumber);
         level = levelText.text.Split('\n');
-        Debug.Log(path);
         if (File.Exists(path))
         {
-            Debug.Log("load file");
             level = File.ReadAllLines(path);
         }
         else

@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class AimingEnemy : Enemy
 {
-    private int mHealth = 25;
-    protected override int health { get { return mHealth; } set { } }
     protected override int pointValue { get { return 100; } }
     protected override float speed { get { return 1.5f; } }
-    protected override float gunCooldownMin { get { return .8f; } }
-    protected override float gunCooldownMax { get { return 1f; } }
+    protected override float gunCooldownMin { get { return .9f; } }
+    protected override float gunCooldownMax { get { return 1.1f; } }
+
     private GameObject player;
 
-    private float gunCooldown = .8f;
-
+    private void Reset()
+    {
+        health = 25;
+        gunCooldown = .9f;
+    }
     protected override void Start()
     {
         base.Start();
+        Reset();
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -28,15 +31,21 @@ public class AimingEnemy : Enemy
         }
         else
         {
-            if (transform.position.y > player.transform.position.y)
+            if (player == null)
             {
-                gunCooldown = Random.Range(gunCooldownMin, gunCooldownMax);
-                Vector3 launchPosition = new(transform.position.x, transform.position.y - 1, transform.position.z);
-                Vector3 direction = player.transform.position - launchPosition;
+                player = GameObject.FindGameObjectWithTag("Player");
+            }
+            if (player != null)
+            {
+                if (transform.position.y - 1 > player.transform.position.y)
+                {
+                    gunCooldown = Random.Range(gunCooldownMin, gunCooldownMax);
+                    Vector3 launchPosition = new(transform.position.x, transform.position.y - 1, transform.position.z);
+                    Vector3 direction = player.transform.position - launchPosition;
 
-                Instantiate(projectile, launchPosition, Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0));
+                    Instantiate(projectile, launchPosition, Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0));
+                }
             }
         }
-
     }
 }

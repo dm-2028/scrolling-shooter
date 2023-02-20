@@ -5,32 +5,34 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour
 {
-    private int mHealth = 20;
-    virtual protected int health{ get { return mHealth; } set { } }
+    [SerializeField] protected int health;
 
     virtual protected int pointValue { get { return 50; } }
     virtual protected float speed { get { return 1.0f; } }
     virtual protected float gunCooldownMin {  get { return .9f; } }
     virtual protected float gunCooldownMax { get { return 1.1f; } }
-    private float gunCooldown;
+    [SerializeField] protected float gunCooldown;
     private bool isColliding;
 
     public GameObject healthObject;
     public GameObject powerupObject;
     public ParticleSystem explosion;
-    public AudioClip explosionSound;
 
     [SerializeField] public GameObject projectile;
 
     private GameManager gameManager;
-    private AudioSource enemyAudio;
-    
+
+    private void Reset()
+    {
+        health = 20;
+        gunCooldown = Random.Range(0.0f, 1.0f);
+    }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        gunCooldown = Random.Range(0.0f, 1.0f);
+        Reset();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        enemyAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class Enemy : MonoBehaviour
         isColliding = false;
         Move();
         Shoot();
-        if(mHealth <= 0)
+        if(health <= 0)
         {
             int spawn = Random.Range(0, 25);
             if(spawn <= 2)
@@ -50,7 +52,6 @@ public class Enemy : MonoBehaviour
                 Instantiate(powerupObject, transform.position, transform.rotation);
             }
             gameManager.addScore(pointValue);
-            enemyAudio.PlayOneShot(explosionSound);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
@@ -81,19 +82,17 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("trigger enter " + other.name);
         if (other.CompareTag("Projectile") && !isColliding)
         {
-            Debug.Log("Compare projectile");
             isColliding = true;
             Destroy(other.gameObject);
-            mHealth--;
+            health--;
         }
         if(other.CompareTag("Missile") && !isColliding)
         {
             isColliding = true;
             Destroy(other.gameObject);
-            mHealth -= 5;
+            health -= 5;
         }
     }
 

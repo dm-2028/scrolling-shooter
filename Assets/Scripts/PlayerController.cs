@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private static int powerLevel = 1;
 
     private bool powerupShield = true;
+    private bool isColliding = false;
 
     public GameObject bullet;
     public GameManager gameManager;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isColliding = false;
         HandleMovement();
         HandleShooting();
     }
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
         {
             gunCooldown = .1f;
             InstantiateBullets();
-            if (powerLevel >= 4)
+            if (powerLevel >= 4 && missileCooldown <= 0)
             {
                 missileCooldown = .4f;
                 playerAudio.PlayOneShot(missileSound);
@@ -113,50 +115,55 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("oncollision " + collision.gameObject.name);
         Vector3 otherPosition = collision.gameObject.transform.position;
         Vector3 direction = transform.position - otherPosition;
-        Debug.Log("direction: " + direction);
         LoseHealth(1);
         //playerRb.AddForce(direction*500.0f, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("EnemyProjectile"))
+        if (!isColliding)
         {
-            Destroy(other.gameObject);
-            LoseHealth(1);
-            if (!powerupShield && powerLevel > 1)
+            if (other.CompareTag("EnemyProjectile"))
             {
-                powerLevel--;
-                
+                isColliding = true;
+                Destroy(other.gameObject);
+                LoseHealth(1);
+                if (!powerupShield && powerLevel > 1)
+                {
+                    powerLevel--;
+
+                }
+                powerupShield = false;
+                Invoke("ResetPowerupShield", 2.0f);
             }
-            powerupShield = false;
-            Invoke("ResetPowerupShield", 2.0f);
-        }
-        if (other.CompareTag("Bomb"))
-        {
-            Destroy(other.gameObject);
-            LoseHealth(2);
-        }
-        if (other.CompareTag("Health"))
-        {
-            Debug.Log("Health Pickup");
-            Destroy(other.gameObject);
-            health += 2;
-            if(health > maxHealth)
+            if (other.CompareTag("Bomb"))
             {
-                health = maxHealth;
+                isColliding = true;
+                Destroy(other.gameObject);
+                LoseHealth(2);
             }
-            gameManager.UpdateHealth(health);
-        }
-        if (other.CompareTag("Powerup"))
-        {
-            Destroy(other.gameObject);
-            if(powerLevel < 4)
+            if (other.CompareTag("Health"))
             {
-                powerLevel++;
+                isColliding = true;
+                Debug.Log("Health Pickup");
+                Destroy(other.gameObject);
+                health += 2;
+                if (health > maxHealth)
+                {
+                    health = maxHealth;
+                }
+                gameManager.UpdateHealth(health);
+            }
+            if (other.CompareTag("Powerup"))
+            {
+                isColliding = true;
+                Destroy(other.gameObject);
+                if (powerLevel < 4)
+                {
+                    powerLevel++;
+                }
             }
         }
     }

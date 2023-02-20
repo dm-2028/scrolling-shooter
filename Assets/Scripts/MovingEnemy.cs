@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MovingEnemy : Enemy
 {
-    private int mHealth = 30;
-    protected override int health { get { return mHealth; } set { } }
     protected override float speed { get { return 2.0f; } }
     protected override float gunCooldownMin { get { return .8f; } }
     protected override float gunCooldownMax { get { return 1f; } }
@@ -16,9 +14,14 @@ public class MovingEnemy : Enemy
     private float minXPosition;
     private int direction = 1;
 
+    private void Reset()
+    {
+        health = 30;
+    }
     protected override void Start()
     {
         base.Start();
+        Reset();
         maxXPosition = transform.position.x + maxXMovement;
         minXPosition = transform.position.x - maxXMovement;
     }

@@ -11,7 +11,7 @@ public class Boss : MonoBehaviour
     public GameObject bombPrefab;
     public GameObject laserPrefab;
 
-    private int health = 500;
+    private int health = 400;
     private int pointValue = 10000;
     private float bombCooldown;
     private bool leftGun;
@@ -24,9 +24,7 @@ public class Boss : MonoBehaviour
 
     private GameObject player;
     private GameManager gameManager;
-    private AudioSource bossAudio;
 
-    public AudioClip explosionSound;
     public ParticleSystem explosion;
 
     public bool isActive { get; set; }
@@ -138,9 +136,8 @@ public class Boss : MonoBehaviour
         while(fadeLevel > 0)
         {
 
-            if (Random.Range(0, 10) == 0)
+            if (Random.Range(0, 20) == 0)
             {
-                bossAudio.PlayOneShot(explosionSound);
                 Instantiate(explosion, new Vector3(Random.Range(xValMin, xValMax), Random.Range(yValMin, yValMax), 0), transform.rotation);
             }
             Debug.Log("Fade Level " + fadeLevel);
