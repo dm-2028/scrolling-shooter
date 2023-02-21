@@ -103,8 +103,8 @@ public class PlayerController : MonoBehaviour
         Instantiate(bullet, new Vector3(transform.position.x + .7f, transform.position.y+.5f, transform.position.z), Quaternion.Euler(0, 0, 0));
         if(powerLevel >= 2)
         {
-            Instantiate(bullet, new Vector3(transform.position.x - .75f, transform.position.y + .5f, transform.position.z), Quaternion.Euler(0, 0, 0));
-            Instantiate(bullet, new Vector3(transform.position.x + .75f, transform.position.y + .5f, transform.position.z), Quaternion.Euler(0, 0, 0));
+            Instantiate(bullet, new Vector3(transform.position.x - .75f, transform.position.y + .55f, transform.position.z), Quaternion.Euler(0, 0, 0));
+            Instantiate(bullet, new Vector3(transform.position.x + .75f, transform.position.y + .55f, transform.position.z), Quaternion.Euler(0, 0, 0));
         }
         if(powerLevel >= 3)
         {

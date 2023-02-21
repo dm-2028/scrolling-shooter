@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 5948032794416743365, guid: 71eccb158db4c20469c65ffa63f6755d, type: 3}
-  explosion: {fileID: 8702504874931536818, guid: a08fa10d49e1cb7499f8be751897f971, type: 3}
+  explosion: {fileID: 754844644577219168, guid: e07a408ac2636194984534d9a6772479, type: 3}
 --- !u!54 &5379454446878679054
 Rigidbody:
   m_ObjectHideFlags: 0

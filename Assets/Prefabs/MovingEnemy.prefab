@@ -127,10 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c244ab0e9a6e04482d803221cb914e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  gunCooldown: 0
   healthObject: {fileID: 8424109106484416446, guid: ab65df868498272408c9141a175a66d8, type: 3}
   powerupObject: {fileID: 2912915930090470894, guid: cf19e8a7e50904a4694c643a18c53b1a, type: 3}
-  explosion: {fileID: 4632652905123156457, guid: c00b528130123974ba28855d435ac396, type: 3}
-  explosionSound: {fileID: 8300000, guid: 4bcde6de2166e41e284ec46d8a01fb90, type: 3}
+  explosion: {fileID: 2680991627555407212, guid: eeb09203315c32d4b9e335539348b379, type: 3}
   projectile: {fileID: 5948032794416743365, guid: 71eccb158db4c20469c65ffa63f6755d, type: 3}
 --- !u!54 &9033790719793743899
 Rigidbody:
